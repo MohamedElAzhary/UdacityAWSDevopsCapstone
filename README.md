@@ -26,4 +26,6 @@ kubectl==1.21.1
 minikube==1.20.0
 ```
 ### Required files ###
-```resize.sh```
+```
+config.yml  #Circleci configuration file
+```
