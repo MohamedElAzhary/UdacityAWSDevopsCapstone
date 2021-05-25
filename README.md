@@ -25,3 +25,5 @@ hadolint==1.16.3
 kubectl==1.21.1
 minikube==1.20.0
 ```
+### Required files ###
+```resize.sh```
