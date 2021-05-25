@@ -28,4 +28,5 @@ minikube==1.20.0
 ### Required files ###
 ```
 config.yml  #Circleci configuration file
+run_env.sh  #Script responible for building docker image and deploying this image in a pod inside a cluster.
 ```
