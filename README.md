@@ -5,7 +5,7 @@ This repository contains Udacity AWS Devops Capstone project
 
 
 
-### Requirements and their version nubmer ###
+### Requirements and their version number ###
 ```
 pylint==2.8.2
 Click==7.0
@@ -21,4 +21,7 @@ scikit-learn==0.20.3
 scipy==1.3.1
 six==1.12.0
 Werkzeug==0.16.0
+hadolint==1.16.3
+kubectl==1.21.1
+minikube==1.20.0
 ```
