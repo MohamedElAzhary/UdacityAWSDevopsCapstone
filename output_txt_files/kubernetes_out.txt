@@ -1,0 +1,42 @@
+#Output due to run_kubernetes.sh script run
+
+pod/mlpod created
+NAME    READY   STATUS              RESTARTS   AGE
+mlpod   0/1     ContainerCreating   0          0s
+NAME    READY   STATUS    RESTARTS   AGE
+mlpod   1/1     Running   0          2m
+Forwarding from 127.0.0.1:8000 -> 80
+Forwarding from [::1]:8000 -> 80
+Handling connection for 8000
+
+
+#Output due to make_prediction.sh script run
+Port: 8000
+{
+  "prediction": [
+    20.35373177134412
+  ]
+}
+
+
+#Output due to kubectl logs mlpod command run
+
+ * Serving Flask app "app" (lazy loading)
+ * Environment: production
+   WARNING: Do not use the development server in a production environment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+ * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 290-320-994
+[2021-05-25 11:39:08,796] INFO in app: JSON payload: 
+{'CHAS': {'0': 0}, 'RM': {'0': 6.575}, 'TAX': {'0': 296.0}, 'PTRATIO': {'0': 15.3}, 'B': {'0': 396.9}, 'LSTAT': {'0': 4.98}}
+[2021-05-25 11:39:08,806] INFO in app: Inference payload DataFrame: 
+   CHAS     RM    TAX  PTRATIO      B  LSTAT
+0     0  6.575  296.0     15.3  396.9   4.98
+[2021-05-25 11:39:08,813] INFO in app: Scaling Payload: 
+   CHAS     RM    TAX  PTRATIO      B  LSTAT
+0     0  6.575  296.0     15.3  396.9   4.98
+[2021-05-25 11:39:08,816] INFO in app: prediction: [20.35373177134412]
+127.0.0.1 - - [25/May/2021 11:39:08] "POST /predict HTTP/1.1" 200 -
