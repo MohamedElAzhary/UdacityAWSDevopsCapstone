@@ -19,20 +19,16 @@ install:
 	@wget -O ./.ml-microservice/bin/minikube "https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64" \
 	&& chmod +x .ml-microservice/bin/minikube
 	@wget -P ./.ml-microservice/bin/ https://download.docker.com/linux/static/stable/x86_64/docker-17.03.0-ce.tgz
-	@tar -xzvf ./.ml-microservice/bin/docker-17.03.0-ce.tgz -C ./.ml-microservice/bin/
-	@rm -f ./.ml-microservice/bin/docker-17.03.0-ce.tgz
-	@mkdir ./.ml-microservice/bin/tmp
-	@cp -r ./.ml-microservice/bin/docker/* ./.ml-microservice/bin/tmp
-	@rm -f -r ./.ml-microservice/bin/docker
-	@cp -r ./.ml-microservice/bin/tmp/* ./.ml-microservice/bin/
-	@rm -f -r ./.ml-microservice/bin/tmp
-	@if (test -f ./.ml-microservice/bin/docker);then chmod +x ./.ml-microservice/bin/docker;fi;
-	sudo yum install conntrack
+	#@tar -xzvf ./.ml-microservice/bin/docker-17.03.0-ce.tgz -C ./.ml-microservice/bin/
+	#@rm -f ./.ml-microservice/bin/docker-17.03.0-ce.tgz
+	#@mkdir ./.ml-microservice/bin/tmp
+	#@cp -r ./.ml-microservice/bin/docker/* ./.ml-microservice/bin/tmp
+	#@rm -f -r ./.ml-microservice/bin/docker
+	#@cp -r ./.ml-microservice/bin/tmp/* ./.ml-microservice/bin/
+	#@rm -f -r ./.ml-microservice/bin/tmp
+	#@if (test -f ./.ml-microservice/bin/docker);then chmod +x ./.ml-microservice/bin/docker;fi;
+	#sudo yum install conntrack
 	
-	kubectl version
-	minikube version
-	docker --version
-
 test:
 	# Additional, optional, tests could go here
 	#python -m pytest -vv --cov=myrepolib tests/*.py
