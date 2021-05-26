@@ -17,6 +17,9 @@ RUN pip install --upgrade pip --no-cache-dir &&\
 
 ## Step 4:
 EXPOSE 80
+EXPOSE 8000
+EXPOSE 8080
+
 
 
 ## Step 5:

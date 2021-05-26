@@ -15,20 +15,34 @@ echo "Linting Code"
 make lint
 
 # Creating image path
-imageName=moazario/mlproject:ml
+imageName=moazario/mlproject:mlimage
 
-echo "Building Docker image from this directory"
-# Build image and add a descriptive tag
-./.ml-microservice/bin/docker build -t $imageName .
+if !(./.ml-microservice/bin/docker image ls | grep mlimage)
+then 
+    echo "Building Docker image from this directory"
+    # Build image and add a descriptive tag
+    ./.ml-microservice/bin/docker build -t $imageName .
+
+fi
+
 
 echo "Listing existing docker images"
 # List docker images
 ./.ml-microservice/bin/docker image ls
 
+
+export PATH=$PATH:./.ml-microservice/bin
+
 echo "Starting Kubernetes"
-./.ml-microservice/bin/minikube start
+./.ml-microservice/bin/minikube start --driver=docker
 sleep 1m
 
+if(./.ml-microservice/bin/kubectl get pods | grep mlpod)
+then 
+    echo "Deleting running pod"
+    ./.ml-microservice/bin/kubectl delete pod mlpod
+    sleep 1m
+fi
 
 echo "Running image inside mlpod"
 # Run image inside a pod

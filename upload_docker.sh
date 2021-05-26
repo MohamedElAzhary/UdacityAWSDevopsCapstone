@@ -5,7 +5,7 @@
 
 # Step 1:
 # Create dockerpath
-dockerpath=moazario/mlproject:ml
+dockerpath=moazario/mlproject:mlimage
 
 # Step 2:  
 # Authenticate & tag

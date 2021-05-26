@@ -7,11 +7,11 @@
 
 setup:
 	echo "Creating Environment"
-	if !(test -f .ml-microservice/bin/activate);then python3 -m venv .ml-microservice;fi;
+	@if !(test -f .ml-microservice/bin/activate);then python3 -m venv .ml-microservice;fi;
 
 install:
-	@pip install --upgrade pip &&\
-		pip install -r requirements.txt
+	@pip install --upgrade pip
+	@pip install -r requirements.txt
 	@wget -O ./.ml-microservice/bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 \
 	&& chmod +x .ml-microservice/bin/hadolint
 	@wget -O ./.ml-microservice/bin/kubectl "https://dl.k8s.io/release/v1.21.1/bin/linux/amd64/kubectl" \
@@ -27,6 +27,11 @@ install:
 	@cp -r ./.ml-microservice/bin/tmp/* ./.ml-microservice/bin/
 	@rm -f -r ./.ml-microservice/bin/tmp
 	@if (test -f ./.ml-microservice/bin/docker);then chmod +x ./.ml-microservice/bin/docker;fi;
+	sudo yum install conntrack
+	
+	kubectl version
+	minikube version
+	docker --version
 
 test:
 	# Additional, optional, tests could go here
