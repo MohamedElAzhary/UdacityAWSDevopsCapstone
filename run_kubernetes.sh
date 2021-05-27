@@ -20,7 +20,8 @@ kubectl get pods
 
 # Step 4:
 # Forward the container port to a host
-kubectl port-forward mlpod 8000:80
+kubectl port-forward mlpod 8000:80 --address 0.0.0.0
+
 
 #kubectl exec --stdin --tty mlpod -- /bin/bash
 
