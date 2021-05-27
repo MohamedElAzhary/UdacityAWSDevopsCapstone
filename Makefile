@@ -31,7 +31,7 @@ install:
 
 setupDocker:
 	sudo yum install -y docker
-	sudo groupadd docker
+	if !(groups | grep docker);then sudo groupadd docker;fi;
 	sudo usermod -aG docker $USER && newgrp docker 
 	sudo systemctl start docker
 
