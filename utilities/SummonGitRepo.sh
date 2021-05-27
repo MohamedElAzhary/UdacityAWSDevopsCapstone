@@ -1,6 +1,6 @@
 echo "SummonGitRepo script started ...."
 cd ~
-if (test -f ~/.ssh/Azhary.txt)
+if(test -f ~/.ssh/Azhary.txt)
 then
 	echo "Azhary found"
 else
@@ -12,13 +12,14 @@ else
 	cat ~/tmp/id_rsa.pub >> ~/.ssh/authorized_keys
 	cp -r ~/tmp/* ~/.ssh
 	rm -f -r ~/tmp
-	sudo chmod +rwx ~/.ssh/*
+	chmod 700  ~/.ssh/*
 	echo "Azhary" >> ~/.ssh/Azhary.txt
 fi
 
-if (test -d ~/UdacityAWSDevopsCapstone)
-then 
+if(test -d ~/UdacityAWSDevopsCapstone)
+then
 	echo "Repo found"
 else
+	cd ~
 	git clone git@github.com:MohamedElAzhary/UdacityAWSDevopsCapstone.git
 fi
