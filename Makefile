@@ -27,11 +27,13 @@ install:
 	@cp -r ./.ml-microservice/bin/tmp/* ./.ml-microservice/bin/
 	@rm -f -r ./.ml-microservice/bin/tmp
 	@if (test -f ./.ml-microservice/bin/docker);then chmod +x ./.ml-microservice/bin/docker;fi;
-	sudo yum install conntrack
-	
-	kubectl version
-	minikube version
-	docker --version
+
+setupDocker:
+	sudo yum install -y docker
+	sudo groupadd docker
+	sudo usermod -aG docker $USER && newgrp docker 
+	sudo systemctl start docker
+
 
 test:
 	# Additional, optional, tests could go here
