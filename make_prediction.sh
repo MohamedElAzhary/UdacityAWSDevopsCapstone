@@ -3,7 +3,7 @@
 PORT=8000
 HOST=${1:-localhost}
 echo "Port: $PORT"
-
+echo "Host: $HOST"
 # POST method predict
 curl -d '{  
    "CHAS":{  
