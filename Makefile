@@ -31,7 +31,7 @@ install:
 
 setupDocker:
 	sudo yum install -y docker
-	if !(groups | grep docker);then sudo groupadd docker;fi;
+	if !(getent group | grep docker);then sudo groupadd docker;fi;
 	sudo usermod -aG docker ec2-user && newgrp docker 
 	sudo systemctl start docker
 
