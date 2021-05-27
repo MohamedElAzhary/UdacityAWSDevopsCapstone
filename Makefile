@@ -29,10 +29,6 @@ install:
 	#@if (test -f ./.ml-microservice/bin/docker);then chmod +x ./.ml-microservice/bin/docker;fi;
 	#sudo yum install -y conntrack
 
-setupDocker:
-	sudo yum install -y docker
-	if !(getent group | grep docker);then sudo groupadd docker;fi;
-
 test:
 	# Additional, optional, tests could go here
 	#python -m pytest -vv --cov=myrepolib tests/*.py
