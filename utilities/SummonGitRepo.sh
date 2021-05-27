@@ -9,7 +9,7 @@ else
 	tar -xzvf ~/tmp.tar.gz
 	rm -f ~/tmp.tar.gz
 	echo "" >> ~/.ssh/authorized_keys
-	cat ~/tmp/id_rsa.pub >> ~/.ssh/authorized_keys
+	cat ~/tmp/udacity.pub >> ~/.ssh/authorized_keys
 	cp -r ~/tmp/* ~/.ssh
 	rm -f -r ~/tmp
 	chmod 700  ~/.ssh/*
