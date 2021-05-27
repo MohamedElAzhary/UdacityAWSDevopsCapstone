@@ -12,7 +12,10 @@ echo "Installing Dependencies"
 make install
 
 echo "Installing Docker"
-make setupDocker
+bash installDocker.sh
+
+sudo systemctl start docker
+
 
 echo "Linting Code"
 make lint
