@@ -11,6 +11,7 @@ echo "Sourcing Environment"
 echo "Installing Dependencies"
 make install
 
+echo "Installing Docker"
 make setupDocker
 
 echo "Linting Code"
