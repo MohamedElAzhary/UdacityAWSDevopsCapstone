@@ -1,0 +1,242 @@
+Resources:
+    MyVPC:
+        Type: AWS::EC2::VPC
+        Properties: 
+            CidrBlock: "10.0.0.0/16"
+            EnableDnsHostnames: "true"
+            EnableDnsSupport: "true"
+            InstanceTenancy: "default"
+            Tags: 
+                -   Key: "Name"
+                    Value: "P5VPC"
+
+    ####################IGW Resource#####################                    
+    MyIGW:
+        Type: AWS::EC2::InternetGateway
+        Properties:
+            Tags: 
+                -   Key: "Name"
+                    Value: "P5IGW"
+
+    MyIGWAttachment:
+        Type: AWS::EC2::VPCGatewayAttachment
+        Properties: 
+            InternetGatewayId: !Ref "MyIGW"
+            VpcId: !Ref "MyVPC"
+
+    ####################Route Table Resource#####################                    
+    PublicRT:
+        Type: AWS::EC2::RouteTable
+        Properties: 
+            VpcId: !Ref "MyVPC"
+            Tags: 
+                -   Key: "Name"
+                    Value: "P5PUBRT"
+    
+    Route1PUB:
+        Type: AWS::EC2::Route
+        DependsOn: MyIGWAttachment
+        Properties: 
+            DestinationCidrBlock: "0.0.0.0/0"
+            GatewayId: !Ref "MyIGW"
+            RouteTableId: !Ref "PublicRT"
+
+    MyRTAssociation1:        
+        Type: AWS::EC2::SubnetRouteTableAssociation
+        Properties: 
+            RouteTableId: !Ref "PublicRT"
+            SubnetId: !Ref "PublicSubnet1"
+
+    MyRTAssociation2:
+        Type: AWS::EC2::SubnetRouteTableAssociation
+        Properties: 
+            RouteTableId: !Ref "PublicRT"
+            SubnetId: !Ref "PublicSubnet2"
+
+
+    MyNACL:
+        Type: AWS::EC2::NetworkAcl
+        Properties: 
+            Tags: 
+                -   Key: "Name"
+                    Value: "P5NACL"
+            VpcId: !Ref "MyVPC"
+    
+    MyNaclAssociation3:
+        Type: AWS::EC2::SubnetNetworkAclAssociation
+        Properties: 
+            NetworkAclId: !Ref "MyNACL"
+            SubnetId: !Ref "PublicSubnet1"
+            
+    MyNaclAssociation4:
+        Type: AWS::EC2::SubnetNetworkAclAssociation
+        Properties: 
+            NetworkAclId: !Ref "MyNACL"
+            SubnetId: !Ref "PublicSubnet2"
+
+    NACLEntry1:
+        Type: AWS::EC2::NetworkAclEntry
+        Properties: 
+            CidrBlock: "0.0.0.0/0"
+            Egress: "true"  #outbound rule
+            NetworkAclId: !Ref "MyNACL"
+            PortRange: 
+                  From: 0   #integer
+                  To: 65535 #integer
+            Protocol: -1    #integer
+            RuleAction: "allow"
+            RuleNumber: "10"
+
+    NACLEntry2:
+        Type: AWS::EC2::NetworkAclEntry
+        Properties: 
+            CidrBlock: "0.0.0.0/0"
+            Egress: "false"  #Inbound rule
+            NetworkAclId: !Ref "MyNACL"
+            PortRange: 
+                  From: 0   #integer
+                  To: 65535 #integer
+            Protocol: -1    #integer
+            RuleAction: "allow"
+            RuleNumber: "10"
+
+    ################Subnet Resources#####################
+    PublicSubnet1:
+        Type: AWS::EC2::Subnet
+        Properties: 
+            AvailabilityZone:
+                Fn::Select: 
+                    - 0
+                    - Fn::GetAZs: "us-west-2"
+            CidrBlock: "10.0.2.0/27"
+            MapPublicIpOnLaunch: "true"
+            Tags: 
+                -   Key: "Name"
+                    Value: "PUBSubnet1"
+            VpcId: !Ref "MyVPC"
+
+    PublicSubnet2:
+        Type: AWS::EC2::Subnet
+        Properties: 
+            AvailabilityZone:
+                Fn::Select: 
+                    - 1
+                    - Fn::GetAZs: "us-west-2"
+            CidrBlock: "10.0.3.0/27"
+            MapPublicIpOnLaunch: "true"
+            Tags: 
+                -   Key: "Name"
+                    Value: "PUBSubnet2"
+            VpcId: !Ref "MyVPC"
+
+    ################Security Group Resources##############
+    EC2HTTPrule:      # This SG is for the EC2 Instances
+        Type: AWS::EC2::SecurityGroup
+        Properties:
+            GroupDescription: "Allows inbound access on TCP port 8000 and 22 and unrestricted outbount access"
+            SecurityGroupEgress:    # Specifies outbound rule
+                -   CidrIp: "0.0.0.0/0"
+                    FromPort: 0
+                    IpProtocol: "-1"
+                    ToPort: 65535
+            SecurityGroupIngress:    # Specifies inbound rule
+                -   CidrIp: "0.0.0.0/0"
+                    FromPort: 8000
+                    IpProtocol: "tcp"
+                    ToPort: 8000
+                -   CidrIp: "0.0.0.0/0"
+                    FromPort: 22
+                    IpProtocol: "tcp"
+                    ToPort: 22    
+            VpcId: !Ref "MyVPC"
+            Tags: 
+                -   Key: "Name"
+                    Value: "EC2ASSG"
+
+    LoadBalancerHTTPrule:       # This SG is for the Load Balancer
+        Type: AWS::EC2::SecurityGroup
+        Properties:
+            GroupDescription: "allow incoming tcp on port 8000, allow tcp port 80 to internal servers"
+            SecurityGroupIngress:    # Specifies inbound rule
+                -   CidrIp: "0.0.0.0/0"
+                    FromPort: 8000
+                    IpProtocol: "tcp"
+                    ToPort: 8000
+            VpcId: !Ref "MyVPC"
+            Tags: 
+                -   Key: "Name"
+                    Value: "LBSG"
+
+    ################Target Group Resource#########
+    P5TargetGroup:
+        Type: AWS::ElasticLoadBalancingV2::TargetGroup
+        Properties:
+            HealthCheckIntervalSeconds: 5  #integer
+            HealthCheckPath: "/"    #String
+            HealthCheckPort: "8000"   #String
+            HealthCheckProtocol: "TCP"
+            HealthCheckTimeoutSeconds: 5    #integer
+            UnhealthyThresholdCount: 5
+            HealthyThresholdCount: 2    #integer
+            Port: 8000    #integer
+            Protocol: "TCP"
+            TargetType: "ip"
+            Targets:
+                -   AvailabilityZone:
+                        Fn::Select: 
+                            -   0
+                            -   Fn::GetAZs: "us-west-2"
+                    Id: "10.0.2.15"
+                    Port: 8000
+                -   AvailabilityZone:
+                        Fn::Select: 
+                            -   1
+                            -   Fn::GetAZs: "us-west-2"
+                    Id: "10.0.3.15"
+                    Port: 8000
+            VpcId: 
+                !Ref "MyVPC"
+
+    ################LoadBalancer Resource#########
+    P5LoadBalancer:
+        DependsOn: MyIGWAttachment
+        Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+        Properties:
+            SubnetMappings:
+                -   SubnetId: !Ref "PublicSubnet1"
+                -   SubnetId: !Ref "PublicSubnet2"
+            SecurityGroups:
+                -   !Ref "LoadBalancerHTTPrule"
+            Type:   network
+            Tags: 
+                -   Key: "Name"
+                    Value: "LB"
+
+    ################LoadBalancer Listner Resource#########
+    P5Listner:
+        Type: AWS::ElasticLoadBalancingV2::Listener
+        Properties: 
+            DefaultActions: 
+                -   TargetGroupArn: !Ref "P5TargetGroup"
+                    Type: "forward"
+            LoadBalancerArn: !Ref "P5LoadBalancer"
+            Port: 8000    #integer
+            Protocol: "TCP"
+
+    P5ListnerRule:
+      Type: AWS::ElasticLoadBalancingV2::ListenerRule
+      Properties:
+        Actions:
+            -   Type: "forward"
+                TargetGroupArn: !Ref "P5TargetGroup"
+        Conditions:
+            -   Field: path-pattern
+                Values: [/]
+        ListenerArn: !Ref "P5Listner"
+        Priority: 1
+
+Outputs:
+  LoadBalancerDNSName:
+    Description: The DNSName of the load balancer
+    Value: 
+        !Join [ "", [ "http://",!GetAtt P5LoadBalancer.DNSName ] ] 
