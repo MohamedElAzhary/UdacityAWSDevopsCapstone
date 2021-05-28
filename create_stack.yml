@@ -171,28 +171,18 @@ Resources:
     P5TargetGroup:
         Type: AWS::ElasticLoadBalancingV2::TargetGroup
         Properties:
-            HealthCheckIntervalSeconds: 5  #integer
-            HealthCheckPath: "/"    #String
+            HealthCheckIntervalSeconds: 10  #integer
             HealthCheckPort: "8000"   #String
             HealthCheckProtocol: "TCP"
-            HealthCheckTimeoutSeconds: 5    #integer
-            UnhealthyThresholdCount: 5
-            HealthyThresholdCount: 2    #integer
+            UnhealthyThresholdCount: 3
+            HealthyThresholdCount: 3    #integer
             Port: 8000    #integer
             Protocol: "TCP"
             TargetType: "ip"
             Targets:
-                -   AvailabilityZone:
-                        Fn::Select: 
-                            -   0
-                            -   Fn::GetAZs: "us-west-2"
-                    Id: "10.0.2.15"
+                -   Id: "10.0.2.15"
                     Port: 8000
-                -   AvailabilityZone:
-                        Fn::Select: 
-                            -   1
-                            -   Fn::GetAZs: "us-west-2"
-                    Id: "10.0.3.15"
+                -   Id: "10.0.3.15"
                     Port: 8000
             VpcId: 
                 !Ref "MyVPC"
@@ -202,11 +192,11 @@ Resources:
         DependsOn: MyIGWAttachment
         Type: AWS::ElasticLoadBalancingV2::LoadBalancer
         Properties:
+            Name: P5loadbalancer
+            Scheme: internet-facing
             SubnetMappings:
                 -   SubnetId: !Ref "PublicSubnet1"
                 -   SubnetId: !Ref "PublicSubnet2"
-            SecurityGroups:
-                -   !Ref "LoadBalancerHTTPrule"
             Type:   network
             Tags: 
                 -   Key: "Name"
@@ -223,17 +213,7 @@ Resources:
             Port: 8000    #integer
             Protocol: "TCP"
 
-    P5ListnerRule:
-      Type: AWS::ElasticLoadBalancingV2::ListenerRule
-      Properties:
-        Actions:
-            -   Type: "forward"
-                TargetGroupArn: !Ref "P5TargetGroup"
-        Conditions:
-            -   Field: path-pattern
-                Values: [/]
-        ListenerArn: !Ref "P5Listner"
-        Priority: 1
+
 
 Outputs:
   LoadBalancerDNSName:
