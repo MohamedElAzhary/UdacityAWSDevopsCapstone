@@ -20,5 +20,10 @@ fi
 
 
 (aws ec2 describe-instances --query " Reservations[].Instances[].Tags[]") | jq -c '.[] | select( .Key == "Name")' | jq '.Value'
+length=$((aws ec2 describe-instances --query " Reservations[].Instances[]") | jq '.| length')
+for i in {0..(length-1)}
+do
+    echo "hey"
+done
 
 aws ec2 create-tags --resources i-08cb59d54682bfd37 --tags Key="Name",Value="blue"
