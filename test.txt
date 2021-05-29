@@ -1,0 +1,52 @@
+[
+    {
+        "Value": "898576305101", 
+        "Key": "aws:cloud9:owner"
+    }, 
+    {
+        "Value": "aws-cloud9-Latest-Cloud9-ff82374956814f91988d154ff833949f", 
+        "Key": "Name"
+    }, 
+    {
+        "Value": "ff82374956814f91988d154ff833949f", 
+        "Key": "aws:cloud9:environment"
+    }, 
+    {
+        "Value": "Instance", 
+        "Key": "aws:cloudformation:logical-id"
+    }, 
+    {
+        "Value": "arn:aws:cloudformation:us-west-2:898576305101:stack/aws-cloud9-Latest-Cloud9-ff82374956814f91988d154ff833949f/6a64e1a0-ba48-11eb-bb45-0a48f3019cbd", 
+        "Key": "aws:cloudformation:stack-id"
+    }, 
+    {
+        "Value": "aws-cloud9-Latest-Cloud9-ff82374956814f91988d154ff833949f", 
+        "Key": "aws:cloudformation:stack-name"
+    }
+]
+[
+    {
+        "Value": "898576305101", 
+        "Key": "aws:cloud9:owner"
+    }, 
+    {
+        "Value": "aws-cloud9-Latest-Cloud9-ff82374956814f91988d154ff833949f", 
+        "Key": "Name"
+    }, 
+    {
+        "Value": "ff82374956814f91988d154ff833949f", 
+        "Key": "aws:cloud9:environment"
+    }, 
+    {
+        "Value": "Instance", 
+        "Key": "aws:cloudformation:logical-id"
+    }, 
+    {
+        "Value": "arn:aws:cloudformation:us-west-2:898576305101:stack/aws-cloud9-Latest-Cloud9-ff82374956814f91988d154ff833949f/6a64e1a0-ba48-11eb-bb45-0a48f3019cbd", 
+        "Key": "aws:cloudformation:stack-id"
+    }, 
+    {
+        "Value": "aws-cloud9-Latest-Cloud9-ff82374956814f91988d154ff833949f", 
+        "Key": "aws:cloudformation:stack-name"
+    }
+]
