@@ -216,7 +216,32 @@ Resources:
 
 
 Outputs:
-  LoadBalancerDNSName:
-    Description: The DNSName of the load balancer
-    Value: 
-        !Join [ "", [ "http://",!GetAtt P5LoadBalancer.DNSName ] ] 
+    LoadBalancerDNSName:
+        Description: The DNSName of the load balancer
+        Value: 
+            !Join [ "", [ "http://",!GetAtt P5LoadBalancer.DNSName ] ] 
+        Export:
+            Name: "P5Stack-LBDNSName"
+            
+    LBTargetGroup:
+        Description: The target group
+        Value:
+            !Ref "P5TargetGroup"
+    LBalancer:
+        Description: LoadBalancerArn
+        Value:
+            !Ref "P5LoadBalancer"
+
+    LBSecurityGroup:
+        Description: LoadBalancer SecurityGroup
+        Value:
+            !Ref "EC2HTTPrule"
+        Export:
+            Name: "P5Stack-EC2HTTPrule"
+            
+    PUBSUBNET1:
+        Description: PublicSubnet1
+        Value:
+            !Ref "PublicSubnet1"
+        Export:
+            Name: "P5Stack-PublicSubnet1"

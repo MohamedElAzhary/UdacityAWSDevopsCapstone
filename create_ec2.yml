@@ -1,0 +1,36 @@
+Resources:
+    NewEC2:
+        Type: AWS::EC2::Instance
+        Properties: 
+            AvailabilityZone:
+                Fn::Select: 
+                    - 0
+                    - Fn::GetAZs: "us-west-2"
+            DisableApiTermination: "false"
+            ImageId: "ami-0cf6f5c8a62fa5da6"
+            BlockDeviceMappings: 
+                    -   DeviceName: "/dev/sdk"
+                        Ebs:
+                            VolumeSize: 30
+                            DeleteOnTermination: "true"
+                            VolumeType: "gp2"
+            InstanceType: "t2.large"
+            KeyName: "udacity"
+            NetworkInterfaces: 
+                -   AssociatePublicIpAddress: "true"
+                    DeleteOnTermination: "true"
+                    DeviceIndex: "0"
+                    GroupSet: 
+                        - !ImportValue "P5Stack-LBSecurityGroup"
+                    SubnetId:
+                        - !ImportValue "P5Stack-PUBSUBNET1"
+            UserData:   # User data
+                    Fn::Base64: !Sub |
+                    cd ~
+                    wget https://github.com/MohamedElAzhary/UdacityAWSDevopsCapstone/archive/refs/heads/main.zip
+                    unzip main.zip
+                    rm main.zip
+                    cd UdacityAWSDevopsCapstone-main
+                    bash installDocker.sh
+
+    
