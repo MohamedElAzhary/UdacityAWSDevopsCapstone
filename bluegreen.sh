@@ -59,9 +59,9 @@ then
     done
 fi
 
-echo "Waiting for 2 minutes till EC2 is created"
+echo "Waiting for 4 minutes till EC2 is created"
 echo ""
-sleep 2m
+sleep 4m
 
 echo "Fetching $Order-Stack EC2 Outputs"
 # Register new EC2 at Target Group
