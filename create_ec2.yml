@@ -1,4 +1,35 @@
 Resources:
+    EC2SecurityGroup:      # This SG is for the EC2 Instances
+        Type: AWS::EC2::SecurityGroup
+        Properties:
+            GroupDescription: "Allows inbound access on TCP port 8000 and 22 and unrestricted outbount access"
+            SecurityGroupEgress:    # Specifies outbound rule
+                -   CidrIp: "0.0.0.0/0"
+                    FromPort: 0
+                    IpProtocol: "-1"
+                    ToPort: 65535
+            SecurityGroupIngress:    # Specifies inbound rule
+                -   CidrIp: "0.0.0.0/0"
+                    FromPort: 8000
+                    IpProtocol: "tcp"
+                    ToPort: 8000
+                -   CidrIp: "0.0.0.0/0"
+                    FromPort: 22
+                    IpProtocol: "tcp"
+                    ToPort: 22    
+                -   CidrIp: "0.0.0.0/0"
+                    FromPort: 80
+                    IpProtocol: "tcp"
+                    ToPort: 80    
+                -   CidrIp: "0.0.0.0/0"
+                    FromPort: 443
+                    IpProtocol: "tcp"
+                    ToPort: 443
+            Tags: 
+                -   Key: "Name"
+                    Value: "EC2SecurityGroup"
+
+
     NewEC2:
         Type: AWS::EC2::Instance
         Properties: 
@@ -21,16 +52,41 @@ Resources:
                     DeleteOnTermination: "true"
                     DeviceIndex: "0"
                     GroupSet: 
-                        - !ImportValue "P5Stack-LBSecurityGroup"
-                    SubnetId:
-                        - !ImportValue "P5Stack-PUBSUBNET1"
+                        - !Ref EC2SecurityGroup
+                    SubnetId:   !ImportValue P5Stack-PublicSubnet1
             UserData:   # User data
                     Fn::Base64: !Sub |
-                    cd ~
-                    wget https://github.com/MohamedElAzhary/UdacityAWSDevopsCapstone/archive/refs/heads/main.zip
-                    unzip main.zip
-                    rm main.zip
-                    cd UdacityAWSDevopsCapstone-main
-                    bash installDocker.sh
+                        #!/bin/bash
+                        cd ~
+                        touch came.txt
+                        wget https://github.com/MohamedElAzhary/UdacityAWSDevopsCapstone/archive/refs/heads/main.zip
+                        unzip main.zip
+                        rm main.zip
+                        cd UdacityAWSDevopsCapstone-main
+                        bash installDocker.sh
+            Tags: 
+                -   Key: "Name"
+                    Value: "Green"
 
+
+Outputs:
+    EC2ID:
+        Description: EC2 ID of Instance
+        Value: 
+            !Ref NewEC2
+        Export:
+            Name: !Sub "${AWS::StackName}-EC2ID"
+
+    EC2PRIVIP:
+        Description: EC2 PRIV IP of Instance
+        Value: 
+            !GetAtt NewEC2.PrivateIp
+        Export:
+            Name: !Sub "${AWS::StackName}-EC2PRIVIP"
     
+    EC2PUBIP:
+        Description: EC2 PUB IP of Instance
+        Value: 
+            !GetAtt NewEC2.PublicIp
+        Export:
+            Name: !Sub "${AWS::StackName}-EC2PUBIP"
