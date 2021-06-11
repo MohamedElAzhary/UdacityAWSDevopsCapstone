@@ -23,6 +23,7 @@ echo "Green EC2 has been created in $Order-Stack"
 echo ""
 
 echo "P5Stack Exported Outputs"
+echo ""
 # Searching stack Outputs for TargetGroupARN
 if [[ $(aws cloudformation describe-stacks | grep "P5Stack") ]]
 then
@@ -44,6 +45,12 @@ then
             LBSecurityGroup=$OVALUE
             echo "SecurityGroup in P5Stack is $LBSecurityGroup"
         fi
+      
+        if [[ $OEXPORTNAME == "P5Stack-EC2SecGroup" ]]
+        then
+            EC2SecurityGroup=$OVALUE
+            echo "EC2 SecurityGroup in P5Stack is $EC2SecurityGroup"
+        fi
         
         if [[ $OEXPORTNAME == "P5Stack-PublicSubnet1" ]]
         then
@@ -59,9 +66,9 @@ then
     done
 fi
 
-echo "Waiting for 4 minutes till EC2 is created"
+echo "Waiting for 5 minutes till EC2 is created"
 echo ""
-sleep 4m
+sleep 5m
 
 echo "Fetching $Order-Stack EC2 Outputs"
 # Register new EC2 at Target Group
@@ -118,6 +125,7 @@ then
 fi
 
 echo ""
+
 
 if [[ $Order == "One" ]]
 then

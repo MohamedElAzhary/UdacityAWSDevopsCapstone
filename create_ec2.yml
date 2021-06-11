@@ -21,7 +21,7 @@ Resources:
                     DeleteOnTermination: "true"
                     DeviceIndex: "0"
                     GroupSet: 
-                        - !Ref EC2SecurityGroup
+                        - !ImportValue P5Stack-EC2SecGroup
                     SubnetId:   !ImportValue P5Stack-PublicSubnet1
             UserData:   # User data
                     Fn::Base64: !Sub |
