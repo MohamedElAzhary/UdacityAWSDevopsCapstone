@@ -1,35 +1,4 @@
 Resources:
-    EC2SecurityGroup:      # This SG is for the EC2 Instances
-        Type: AWS::EC2::SecurityGroup
-        Properties:
-            GroupDescription: "Allows inbound access on TCP port 8000 and 22 and unrestricted outbount access"
-            SecurityGroupEgress:    # Specifies outbound rule
-                -   CidrIp: "0.0.0.0/0"
-                    FromPort: 0
-                    IpProtocol: "-1"
-                    ToPort: 65535
-            SecurityGroupIngress:    # Specifies inbound rule
-                -   CidrIp: "0.0.0.0/0"
-                    FromPort: 8000
-                    IpProtocol: "tcp"
-                    ToPort: 8000
-                -   CidrIp: "0.0.0.0/0"
-                    FromPort: 22
-                    IpProtocol: "tcp"
-                    ToPort: 22    
-                -   CidrIp: "0.0.0.0/0"
-                    FromPort: 80
-                    IpProtocol: "tcp"
-                    ToPort: 80    
-                -   CidrIp: "0.0.0.0/0"
-                    FromPort: 443
-                    IpProtocol: "tcp"
-                    ToPort: 443
-            Tags: 
-                -   Key: "Name"
-                    Value: "EC2SecurityGroup"
-
-
     NewEC2:
         Type: AWS::EC2::Instance
         Properties: 

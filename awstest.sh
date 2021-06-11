@@ -88,7 +88,8 @@ then
         #
     else
         aws cloudformation create-stack --stack-name  --template-body file://create_ec2.yml --parameters ParameterKey=IPAd,ParameterValue=10.0.3.15  --region us-west-2 --on-failure DO_NOTHING
-        #aws cloudformation create-stack --stack-name LBStack --template-body file://create_stack.yml --region us-west-2 --on-failure DO_NOTHING        
+        #aws cloudformation create-stack --stack-name P5Stack --template-body file://create_stack.yml --region us-west-2 --on-failure DO_NOTHING
+        
     fi
 else
     if (aws ec2 describe-instances --query " Reservations[].Instances[].PrivateIpAddress" | grep "10.0.3.15")
