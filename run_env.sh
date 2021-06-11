@@ -46,6 +46,7 @@ echo "Listing existing pods"
 # List kubernetes pods
 kubectl get pods
 
+sleep 2m
 
 echo "Forwarding host port 8000 to container port 80"
 # Forward Host port 8000 to container Port 80
