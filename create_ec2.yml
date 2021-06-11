@@ -26,13 +26,13 @@ Resources:
             UserData:   # User data
                     Fn::Base64: !Sub |
                         #!/bin/bash
-                        cd ~
-                        touch came.txt
-                        wget https://github.com/MohamedElAzhary/UdacityAWSDevopsCapstone/archive/refs/heads/main.zip
-                        unzip main.zip
-                        rm main.zip
-                        cd UdacityAWSDevopsCapstone-main
-                        bash installDocker.sh
+                        cd ~;
+                        touch came.txt;
+                        wget https://github.com/MohamedElAzhary/UdacityAWSDevopsCapstone/archive/refs/heads/main.zip;
+                        unzip main.zip;
+                        rm main.zip;
+                        cd UdacityAWSDevopsCapstone-main;
+                        bash installDocker.sh;
             Tags: 
                 -   Key: "Name"
                     Value: "Green"
