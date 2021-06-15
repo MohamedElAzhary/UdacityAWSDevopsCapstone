@@ -30,7 +30,7 @@ Resources:
                         cd /home/ubuntu/
                         sudo apt install unzip
                         unzip -o UdacityAWSDevopsCapstone-main.zip
-                        su ec2-user bash -c "bash /home/ubuntu/UdacityAWSDevopsCapstone-main/installDocker.sh";
+                        su ubuntu bash -c "bash /home/ubuntu/UdacityAWSDevopsCapstone-main/installDocker.sh";
 
             Tags: 
                 -   Key: "Name"
