@@ -28,6 +28,7 @@ Resources:
                         #!/bin/bash
                         wget -P /home/ubuntu/ https://github.com/MohamedElAzhary/UdacityAWSDevopsCapstone/archive/refs/heads/main.zip
                         cd /home/ubuntu/
+                        sudo apt install unzip
                         unzip -o UdacityAWSDevopsCapstone-main.zip
                         su ec2-user bash -c "bash /home/ubuntu/UdacityAWSDevopsCapstone-main/installDocker.sh";
 
