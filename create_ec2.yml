@@ -28,7 +28,7 @@ Resources:
                         #!/bin/bash
                         touch /home/ec2-user/came.txt;
                         wget -P /home/ec2-user/ https://github.com/MohamedElAzhary/UdacityAWSDevopsCapstone/archive/refs/heads/main.zip;
-                        unzip /home/ec2-user/main.zip; 
+                        unzip /home/ec2-user/main.zip -d /home/ec2-user/; 
                         rm /home/ec2-user/main.zip;
                         chmod +rwx /home/ec2-user/UdacityAWSDevopsCapstone-main/*;
                         cd /home/ec2-user/UdacityAWSDevopsCapstone-main;

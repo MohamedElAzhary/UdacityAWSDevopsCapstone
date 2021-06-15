@@ -123,9 +123,9 @@ then
             if [[ $OEXPORTNAME == "One-Stack-EC2ID" ]]
             then
                 OldEC2ID=$OVALUE
-                echo "Terminating OldEC2I=$OldEC2ID in One-Stack"
-                aws ec2 terminate-instances --instance-ids $OldEC2ID
-                echo "OldEC2I=$OldEC2ID in One-Stack is Terminated"
+                #echo "Terminating OldEC2I=$OldEC2ID in One-Stack"
+                #aws ec2 terminate-instances --instance-ids $OldEC2ID
+                #echo "OldEC2I=$OldEC2ID in One-Stack is Terminated"
                 
             fi
         done
@@ -144,7 +144,7 @@ then
         end=$(expr $length - 1)
         for ((i=0; i<=$end; i++))
         do
-            OEXPORTNAME=$(aws cloudformation describe-stacks --stack-name "Two-Stack"--query " Stacks[].Outputs[$i].ExportName" | jq ".[]" | tr -d '"')
+            OEXPORTNAME=$(aws cloudformation describe-stacks --stack-name "Two-Stack" --query " Stacks[].Outputs[$i].ExportName" | jq ".[]" | tr -d '"')
             OVALUE=$(aws cloudformation describe-stacks --stack-name "Two-Stack" --query " Stacks[].Outputs[$i].OutputValue" | jq ".[]" | tr -d '"')
             if [[ $OEXPORTNAME == "Two-Stack-EC2PRIVIP" ]]
             then
@@ -158,9 +158,9 @@ then
             if [[ $OEXPORTNAME == "Two-Stack-EC2ID" ]]
             then
                 OldEC2ID=$OVALUE
-                echo "Terminating OldEC2I=$OldEC2ID in Two-Stack"
-                aws ec2 terminate-instances --instance-ids $OldEC2ID
-                echo "OldEC2I=$OldEC2ID in Two-Stack is Terminated"
+                #echo "Terminating OldEC2I=$OldEC2ID in Two-Stack"
+                #aws ec2 terminate-instances --instance-ids $OldEC2ID
+                #echo "OldEC2I=$OldEC2ID in Two-Stack is Terminated"
                 
             fi
             
@@ -175,12 +175,14 @@ echo ""
 
 if [[ ($Order == "Two") && $(aws cloudformation describe-stacks | grep "One-Stack") ]]
 then
+    echo "Terminating OldEC2I=$OldEC2ID in One-Stack"
     echo "Deleting Old Stack : One-Stack"
     aws cloudformation delete-stack --stack-name One-Stack
     echo "Old Stack : One-Stack is Deleted"
 
 elif [[ ($Order == "One") && $(aws cloudformation describe-stacks | grep "Two-Stack") ]]
 then
+    echo "Terminating OldEC2I=$OldEC2ID in Two-Stack"
     echo "Deleting Old Stack : Two-Stack"
     aws cloudformation delete-stack --stack-name Two-Stack
     echo "Old Stack : Two-Stack is Deleted"
