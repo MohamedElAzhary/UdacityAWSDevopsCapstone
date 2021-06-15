@@ -24,15 +24,16 @@ Resources:
                         - !ImportValue P5Stack-EC2SecGroup
                     SubnetId:   !ImportValue P5Stack-PublicSubnet1
             UserData:   # User data
-                    Fn::Base64: !Sub |
+                    !Base64 |
                         #!/bin/bash
-                        cd ~;
-                        touch came.txt;
-                        wget -P ~ https://github.com/MohamedElAzhary/UdacityAWSDevopsCapstone/archive/refs/heads/main.zip;
-                        unzip ~/main.zip;
+                        su ec2-user bash -c "cd ~"; 
+                        su ec2-user bash -c "touch ~/came.txt";
+                        wget -P ~/ https://github.com/MohamedElAzhary/UdacityAWSDevopsCapstone/archive/refs/heads/main.zip;
+                        unzip ~/main.zip; 
                         rm ~/main.zip;
+                        chmod +rwx ~/UdacityAWSDevopsCapstone-main/*;
                         cd ~/UdacityAWSDevopsCapstone-main;
-                        bash installDocker.sh;
+                        su ec2-user bash -c "bash ~/UdacityAWSDevopsCapstone-main/installDocker.sh";
             Tags: 
                 -   Key: "Name"
                     Value: "Green"
