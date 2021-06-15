@@ -34,6 +34,10 @@ Resources:
                         cd /home/ec2-user/UdacityAWSDevopsCapstone-main;
                         bash InitiallizeEC2.sh
                         #su ec2-user bash -c "bash ~/UdacityAWSDevopsCapstone-main/installDocker.sh";
+                        if !(getent group | grep docker);then groupadd docker;fi;
+                        usermod -aG docker ec2-user #&& newgrp docker
+                        exec 3<&0
+                        echo "exec bash run_env.sh 0<&3 3<&-" | newgrp docker
                         su ec2-user bash -c "bash ~/UdacityAWSDevopsCapstone-main/run_env.sh";
             Tags: 
                 -   Key: "Name"
