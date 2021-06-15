@@ -1,8 +1,14 @@
-#!/bin/bash
-cd ~;
-touch came.txt;
-wget -P ~ https://github.com/MohamedElAzhary/UdacityAWSDevopsCapstone/archive/refs/heads/main.zip;
-unzip ~/main.zip;
-rm ~/main.zip;
-cd ~/UdacityAWSDevopsCapstone-main;
-bash installDocker.sh;
+echo "Creating Environment"
+# Creating environment
+make setup
+
+echo "Sourcing Environment"
+# Sourcing environment
+. .ml-microservice/bin/activate
+
+echo "Installing Dependencies"
+make install
+
+echo "Installing Docker"
+
+sudo yum install -y docker

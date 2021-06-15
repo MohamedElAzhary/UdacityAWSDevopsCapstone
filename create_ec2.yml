@@ -26,13 +26,13 @@ Resources:
             UserData:   # User data
                     !Base64 |
                         #!/bin/bash
-                        su ec2-user bash -c "cd ~"; 
-                        su ec2-user bash -c "touch ~/came.txt";
-                        su ec2-user bash -c "wget -P ~/ https://github.com/MohamedElAzhary/UdacityAWSDevopsCapstone/archive/refs/heads/main.zip";
-                        su ec2-user bash -c "unzip ~/main.zip"; 
-                        su ec2-user bash -c "rm ~/main.zip";
-                        su ec2-user bash -c "chmod +rwx ~/UdacityAWSDevopsCapstone-main/*";
-                        su ec2-user bash -c "cd ~/UdacityAWSDevopsCapstone-main";
+                        touch /home/ec2-user/came.txt;
+                        wget -P /home/ec2-user/ https://github.com/MohamedElAzhary/UdacityAWSDevopsCapstone/archive/refs/heads/main.zip;
+                        unzip /home/ec2-user/main.zip; 
+                        rm /home/ec2-user/main.zip;
+                        chmod +rwx /home/ec2-user/UdacityAWSDevopsCapstone-main/*;
+                        cd /home/ec2-user/UdacityAWSDevopsCapstone-main;
+                        bash InitiallizeEC2.sh
                         su ec2-user bash -c "bash ~/UdacityAWSDevopsCapstone-main/installDocker.sh";
             Tags: 
                 -   Key: "Name"
