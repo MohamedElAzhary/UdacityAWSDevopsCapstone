@@ -36,6 +36,6 @@ test:
 
 lint:
 	@./.ml-microservice/bin/hadolint Dockerfile
-	@pylint --disable=R,C,W1203 app.py
+	#@pylint --disable=R,C,W1203 app.py
 
 all: setup install lint

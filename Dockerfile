@@ -9,11 +9,18 @@ WORKDIR /app
 # Copy source code to working directory
 COPY . /app/
 
-## Step 3:
-# Install packages from requirements.txt
-# hadolint ignore=DL3013
-RUN pip install --upgrade pip --no-cache-dir &&\
-    pip install --trusted-host pypi.python.org -r requirements.txt --no-cache-dir
+RUN iptables -I INPUT -p tcp --dport 12345 --syn -j ACCEPT
+RUN service iptables save
+RUN apt-get update -y
+RUN apt-get install unzip awscli -y
+RUN apt-get install apache2 -y
+RUN cd /var/www/html &&\
+     wget https://github.com/MohamedElAzhary/UdacityAWSDevopsCapstone/raw/main/udacity.zip
+RUN cd /var/www/html &&\
+     unzip -o udacity.zip
+
+
+
 
 ## Step 4:
 EXPOSE 80
@@ -24,4 +31,4 @@ EXPOSE 8080
 
 ## Step 5:
 # Run app.py at container launch
-CMD ["python", "app.py"]
+CMD ["systemctl start apache2.service"]
