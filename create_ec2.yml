@@ -37,8 +37,8 @@ Resources:
                         if !(getent group | grep docker);then groupadd docker;fi;
                         usermod -aG docker ec2-user #&& newgrp docker
                         exec 3<&0
-                        echo "exec bash run_env.sh 0<&3 3<&-" | newgrp docker
-                        su ec2-user bash -c "bash ~/UdacityAWSDevopsCapstone-main/run_env.sh";
+                        echo "exec su ec2-user bash -c "bash ~/UdacityAWSDevopsCapstone-main/run_env.sh" 0<&3 3<&-" | newgrp docker
+
             Tags: 
                 -   Key: "Name"
                     Value: "Green"
