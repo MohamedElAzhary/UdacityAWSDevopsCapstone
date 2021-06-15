@@ -1,15 +1,16 @@
 ## The Makefile includes instructions on environment setup and lint tests
 install:
-		@wget -O ./.ml-microservice/bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 \
-		&& chmod +x .ml-microservice/bin/hadolint
-		@wget -O ./.ml-microservice/bin/kubectl "https://dl.k8s.io/release/v1.21.1/bin/linux/amd64/kubectl" \
-		&& chmod +x .ml-microservice/bin/kubectl
-		@wget -O ./.ml-microservice/bin/minikube "https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64" \
-		&& chmod +x .ml-microservice/bin/minikube
-		@wget -P ./.ml-microservice/bin/ https://download.docker.com/linux/static/stable/x86_64/docker-17.03.0-ce.tgz
+		@wget -O /usr/bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 \
+		&& chmod +x /usr/bin/hadolint
+		@wget -O /usr/bin/kubectl "https://dl.k8s.io/release/v1.21.1/bin/linux/amd64/kubectl" \
+		&& chmod +x /usr/bin/kubectl
+		@wget -O /usr/bin/minikube "https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64" \
+		&& chmod +x /usr/bin/minikube
+		@wget -P /usr/bin/ https://download.docker.com/linux/static/stable/x86_64/docker-17.03.0-ce.tgz
+		@sudo apt install unzip
 
 lint:
-		./.ml-microservice/bin/hadolint Dockerfile
+		/usr/bin/hadolint Dockerfile
 
 deploy:
 		iptables -I INPUT -p tcp --dport 12345 --syn -j ACCEPT
