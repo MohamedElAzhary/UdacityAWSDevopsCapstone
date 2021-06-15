@@ -9,18 +9,7 @@ WORKDIR /app
 # Copy source code to working directory
 COPY . /app/
 
-RUN iptables -I INPUT -p tcp --dport 12345 --syn -j ACCEPT
-RUN service iptables save
-RUN apt-get update -y
-RUN apt-get install unzip awscli -y
-RUN apt-get install apache2 -y
-RUN cd /var/www/html &&\
-     wget https://github.com/MohamedElAzhary/UdacityAWSDevopsCapstone/raw/main/udacity.zip
-RUN cd /var/www/html &&\
-     unzip -o udacity.zip
-
-
-
+RUN make all
 
 ## Step 4:
 EXPOSE 80

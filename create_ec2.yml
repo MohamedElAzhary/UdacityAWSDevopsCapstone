@@ -26,16 +26,10 @@ Resources:
             UserData:   # User data
                     Fn::Base64: !Sub |
                         #!/bin/bash
-                        iptables -I INPUT -p tcp --dport 12345 --syn -j ACCEPT
-                        service iptables save
-                        apt-get update -y
-                        apt-get install unzip awscli -y
-                        apt-get install apache2 -y
-                        systemctl start apache2.service
-                        cd /var/www/html
-                        wget https://github.com/MohamedElAzhary/UdacityAWSDevopsCapstone/raw/main/udacity.zip
-                        unzip -o udacity.zip
-                        #su ec2-user bash -c "bash ~/UdacityAWSDevopsCapstone-main/installDocker.sh";
+                        wget -P /home/ubuntu/ https://github.com/MohamedElAzhary/UdacityAWSDevopsCapstone/archive/refs/heads/main.zip
+                        cd /home/ubuntu/
+                        unzip -o UdacityAWSDevopsCapstone-main.zip
+                        su ec2-user bash -c "bash /home/ubuntu/UdacityAWSDevopsCapstone-main/installDocker.sh";
 
             Tags: 
                 -   Key: "Name"

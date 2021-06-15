@@ -2,7 +2,6 @@
 
 sudo systemctl start docker
 
-
 echo "Linting Code"
 make lint
 
