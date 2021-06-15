@@ -33,7 +33,7 @@ Resources:
                         apt-get install apache2 -y
                         systemctl start apache2.service
                         cd /var/www/html
-                        wget https://github.com/MohamedElAzhary/UdacityAWSDevopsCapstone/blob/main/udacity.zip?raw=true
+                        wget https://github.com/MohamedElAzhary/UdacityAWSDevopsCapstone/raw/main/udacity.zip
                         unzip -o udacity.zip
                         #su ec2-user bash -c "bash ~/UdacityAWSDevopsCapstone-main/installDocker.sh";
 
