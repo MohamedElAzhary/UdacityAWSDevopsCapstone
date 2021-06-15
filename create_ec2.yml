@@ -33,7 +33,8 @@ Resources:
                         chmod +rwx /home/ec2-user/UdacityAWSDevopsCapstone-main/*;
                         cd /home/ec2-user/UdacityAWSDevopsCapstone-main;
                         bash InitiallizeEC2.sh
-                        su ec2-user bash -c "bash ~/UdacityAWSDevopsCapstone-main/installDocker.sh";
+                        #su ec2-user bash -c "bash ~/UdacityAWSDevopsCapstone-main/installDocker.sh";
+                        su ec2-user bash -c "bash ~/UdacityAWSDevopsCapstone-main/run_env.sh";
             Tags: 
                 -   Key: "Name"
                     Value: "Green"
