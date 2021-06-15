@@ -66,9 +66,9 @@ then
     done
 fi
 
-echo "Waiting for 5 minutes till EC2 is created"
+echo "Waiting for 3 minutes till EC2 is created"
 echo ""
-sleep 5m
+sleep 3m
 
 echo "Fetching $Order-Stack EC2 Outputs"
 # Register new EC2 at Target Group
@@ -120,6 +120,14 @@ then
                 aws elbv2 deregister-targets --target-group-arn $LBTargetGroup --targets Id=$EC2PRIVIP,Port=8000,AvailabilityZone="us-west-2a"
                 echo "$EC2PRIVIP from One-Stack is deregistered"
             fi
+            if [[ $OEXPORTNAME == "One-Stack-EC2ID" ]]
+            then
+                OldEC2ID=$OVALUE
+                echo "Terminating OldEC2I=$OldEC2ID in One-Stack"
+                aws ec2 terminate-instances --instance-ids $OldEC2ID
+                echo "OldEC2I=$OldEC2ID in One-Stack is Terminated"
+                
+            fi
         done
     fi
 fi
@@ -146,8 +154,38 @@ then
                 aws elbv2 deregister-targets --target-group-arn $LBTargetGroup --targets Id=$EC2PRIVIP,Port=8000,AvailabilityZone="us-west-2a"
                 echo "$EC2PRIVIP from Two-Stack is deregistered"
             fi
+            
+            if [[ $OEXPORTNAME == "Two-Stack-EC2ID" ]]
+            then
+                OldEC2ID=$OVALUE
+                echo "Terminating OldEC2I=$OldEC2ID in Two-Stack"
+                aws ec2 terminate-instances --instance-ids $OldEC2ID
+                echo "OldEC2I=$OldEC2ID in Two-Stack is Terminated"
+                
+            fi
+            
         done
     fi
 fi
 
 echo ""
+
+
+
+
+if [[ ($Order == "Two") && $(aws cloudformation describe-stacks | grep "One-Stack") ]]
+then
+    echo "Deleting Old Stack : One-Stack"
+    aws cloudformation delete-stack --stack-name One-Stack
+    echo "Old Stack : One-Stack is Deleted"
+
+elif [[ ($Order == "One") && $(aws cloudformation describe-stacks | grep "Two-Stack") ]]
+then
+    echo "Deleting Old Stack : Two-Stack"
+    aws cloudformation delete-stack --stack-name Two-Stack
+    echo "Old Stack : Two-Stack is Deleted"
+else
+    echo "Not Deleting Stacks"
+fi
+
+                

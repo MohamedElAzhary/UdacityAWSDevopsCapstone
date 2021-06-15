@@ -7,9 +7,9 @@ Resources:
                     - 0
                     - Fn::GetAZs: "us-west-2"
             DisableApiTermination: "false"
-            ImageId: "ami-0cf6f5c8a62fa5da6"
+            ImageId: "ami-0800fc0fa715fdcfe"
             BlockDeviceMappings: 
-                    -   DeviceName: "/dev/sdk"
+                    -   DeviceName: "/dev/xvda"
                         Ebs:
                             VolumeSize: 30
                             DeleteOnTermination: "true"
@@ -24,15 +24,16 @@ Resources:
                         - !ImportValue P5Stack-EC2SecGroup
                     SubnetId:   !ImportValue P5Stack-PublicSubnet1
             UserData:   # User data
-                    Fn::Base64: !Sub |
+                    !Base64 |
                         #!/bin/bash
-                        cd ~;
-                        touch came.txt;
+                        su ec2-user bash -c "cd ~"; 
+                        su ec2-user bash -c "touch ~/came.txt";
                         wget https://github.com/MohamedElAzhary/UdacityAWSDevopsCapstone/archive/refs/heads/main.zip;
-                        unzip main.zip;
+                        unzip main.zip; 
                         rm main.zip;
+                        chmod +rwx UdacityAWSDevopsCapstone-main/*;
                         cd UdacityAWSDevopsCapstone-main;
-                        bash installDocker.sh;
+                        su ec2-user bash -c "bash installDocker.sh";
             Tags: 
                 -   Key: "Name"
                     Value: "Green"
